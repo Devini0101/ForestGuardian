@@ -5,13 +5,16 @@ import pygame.image
 from pygame import Surface, Rect
 from pygame.font import Font
 
-from src.Const import WIN_HEIGHT, WIN_WIDTH, C_ORANGE, MENU_OPTION, C_WHITE, C_YELLOW, MENU_BG_PATH, MENU_BG_SOUND_PATH
+from src.Const import WIN_HEIGHT, WIN_WIDTH, C_ORANGE, MENU_OPTION, C_WHITE, C_YELLOW, MENU_BG_PATH, MENU_BG_SOUND_PATH, COMMANDS
 
 class Menu:
     def __init__(self, window):
         self.window = window
         self.surf = pygame.image.load(MENU_BG_PATH).convert_alpha()
         self.rect = self.surf.get_rect() #as default on top = 0 and left = 0
+        pygame.font.init()
+        self.cmd_title_font = pygame.font.SysFont("Lucida Sans Typewriter", 24, bold=True)
+        self.cmd_text_font = pygame.font.SysFont("Lucida Sans Typewriter", 18)
 
     def run(self):
         menu_option = 0
@@ -23,6 +26,20 @@ class Menu:
             self.window.blit(source=self.surf, dest=self.rect)
             self.menu_text(70, "Forest", C_ORANGE, ((WIN_WIDTH / 2), 150))
             self.menu_text(70, "Guardian", C_ORANGE, ((WIN_WIDTH / 2), 220))
+
+            margin_left = 40
+            line_y = 350
+            space_bwt_lines = 30
+
+            title_surf = self.cmd_title_font.render("LISTA DE COMANDOS:", True, C_ORANGE)
+            self.window.blit(title_surf, (margin_left, line_y))
+
+            line_y += space_bwt_lines + 10  # Dá um espaço extra após o título
+
+            for command in COMMANDS:
+                cmd_surf = self.cmd_text_font.render(command, True, C_WHITE)
+                self.window.blit(cmd_surf, (margin_left, line_y))
+                line_y += space_bwt_lines
 
             for i in range(len(MENU_OPTION)):
                 y_pos = 350 + 50 * i  # 350 é o início, 50 é o espaçamento entre opções
