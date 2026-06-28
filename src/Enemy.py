@@ -15,25 +15,23 @@ class Enemy(Entity):
         self.image = self.img_left
         self.rect = self.image.get_rect(topleft=(x, y))
         self.hitbox = pygame.Rect(0, 0, 30, 35)
-        self.hitbox.center = self.rect.center  # Centraliza o hitbox no fantasma
+        self.hitbox.center = self.rect.center  #hitbox em conjunto com a img
 
-        self.player = player  # Guarda a referência do jogador
+        self.player = player  #referencia do player pra perseguicao
         self.lives = 1 #inimigo tem 1 hit de vida
 
     def update(self):
         distancia_x = self.player.rect.x - self.rect.x
 
-        # abs() transforma número negativo em positivo.
-        # Isso evita que o fantasma fique "tremendo" quando chegar exatamente na mesma posição do player.
         if abs(distancia_x) > self.__speed:
             if self.rect.x < self.player.rect.x:
-                self.rect.x += self.__speed  # Persegue para a direita
+                self.rect.x += self.__speed  #direita (eixo x)
                 self.image = self.img_right
             elif self.rect.x > self.player.rect.x:
-                self.rect.x -= self.__speed  # Persegue para a esquerda
+                self.rect.x -= self.__speed  #esquerda (eixo x)
                 self.image = self.img_left
 
-        self.hitbox.center = self.rect.center
+        self.hitbox.center = self.rect.center #update no hitbox para acompanhar a img
 
     def hit(self):
         self.lives -=1
